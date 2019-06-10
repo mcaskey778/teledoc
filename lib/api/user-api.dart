@@ -12,5 +12,6 @@ class UserApi extends BaseApi {
   }
 
   signOut() {
+
   }
 }
