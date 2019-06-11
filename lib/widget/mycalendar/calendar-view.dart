@@ -51,25 +51,6 @@ class CalendarView extends StatelessWidget {
       ),
       body: Row(
         children: <Widget>[
-          FlatButton(
-            onPressed: () => bloc.viewDateChanged(DateTime(bloc.viewDate.year, bloc.viewDate.month-1, 1)),
-            padding: const EdgeInsets.all(0.0),
-            child: Container(
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                //borderRadius: BorderRadius.circular(40),
-              ),
-              child: Text(
-                '<',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 22.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              )
-            )
-          ),
            //mvSB
           StreamBuilder<DateTime>(
                 stream: bloc.viewDateStream,
@@ -129,25 +110,6 @@ class CalendarView extends StatelessWidget {
           )*/
             ),
 
-          FlatButton(
-              onPressed: () => bloc.viewDateChanged(DateTime(bloc.viewDate.year, bloc.viewDate.month+1, 1)),
-              padding: const EdgeInsets.all(0.0),
-              child: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    //borderRadius: BorderRadius.circular(40),
-                  ),
-                  child: Text(
-                    '>',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  )
-              )
-          ),
       ]
     ));
   }
