@@ -8,7 +8,6 @@ class DayLabelState {
   }) {
     if(this.month != null && this.year != null) {
       int firstWeekDay = DateTime(this.year, this.month, 1).weekday;
-      print('firstWeekDay: ' + firstWeekDay.toString());
       if(firstWeekDay == 7) firstWeekDay = 0;
       int dayNum = this.day - firstWeekDay + 1;
       this.curDate = DateTime(year, month, dayNum);

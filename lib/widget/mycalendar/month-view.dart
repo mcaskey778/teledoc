@@ -1,26 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'day-label.dart';
 import 'day-label-state.dart';
 import 'calendar-view-bloc.dart';
 
 class MonthView extends StatelessWidget {
   MonthView({
-    @required this.year,
-    @required this.month,
-    this.getTextStyle,
-    this.getTextDecoration,
-    this.todayColor,
+    int year,
+    int month,
+    this.textDecoration,
+    this.selectedTextDecoration,
+    this.textStyle,
+    this.selectedTextStyle,
+    this.todayDecoration,
+    this.todayStyle,
     this.monthNames,
-    this.bloc
-  });
+    this.daySelected,
+  }) {
+    this.year = year;
+    this.month = month;
+    if (this.daySelected != null)
+      bloc.selectedDateStream.listen(daySelected);
+  }
 
-  final int year;
-  final int month;
-  final Function getTextStyle;
-  final Function getTextDecoration;
-  final Color todayColor;
+  set year(int y) => bloc.viewDateChanged(DateTime(y, this.month, 1));
+  int get year => bloc.viewDate?.year;
+
+  set month(int m) => bloc.viewDateChanged(DateTime(this.year, m, 1));
+  int get month => bloc.viewDate?.month;
+
+  final BoxDecoration textDecoration;
+  final BoxDecoration selectedTextDecoration;
+  final TextStyle textStyle;
+  final TextStyle selectedTextStyle;
+  final BoxDecoration todayDecoration;
+  final TextStyle todayStyle;
   final List<String> monthNames;
-  final CalendarViewBloc bloc;
+  final CalendarViewBloc bloc = CalendarViewBloc();
+  final Function daySelected;
 
 /*
   Widget buildDays(BuildContext context, int week) {
@@ -99,8 +116,12 @@ class MonthView extends StatelessWidget {
             year: year,
             month: month,
             day: i + (weekCount*7)),
-          getTextStyle: this.getTextStyle,
-          getTextDecoration: this.getTextDecoration,
+          textDecoration: this.textDecoration,
+          selectedTextDecoration: this.selectedTextDecoration,
+          textStyle: this.textStyle,
+          selectedTextStyle: this.selectedTextStyle,
+          todayDecoration: this.todayDecoration,
+          todayStyle: this.todayStyle,
         );
         weekDays.add(lastDay);
       }
@@ -119,8 +140,7 @@ class MonthView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('month: ' + this.month.toString());
-    print('year: ' + this.year.toString());
+    var monthFormatter = new DateFormat('MMMM, yyyy');
     return Container(
       child: Column(
         children: <Widget>[
@@ -147,15 +167,18 @@ class MonthView extends StatelessWidget {
                   )
                 ),
                 Expanded(
-                  child: Container(
-                            alignment: Alignment.center,
-                            child: Text(
-                            ((this.month == null)?'':this.monthNames[this.month-1] )+ ', ' + ((this.year == null)?'':this.year.toString()),
-                            style: TextStyle(
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                  child: StreamBuilder<DateTime>(
+                    stream: bloc.viewDateStream,
+                    builder: (context, snapshot) => Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        (snapshot.data!=null)?monthFormatter.format(snapshot.data):'',
+                        style: TextStyle(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 FlatButton(
@@ -186,7 +209,10 @@ class MonthView extends StatelessWidget {
             ),
           ),
           Container(
-            child: this.buildWeeks(context),
+            child: StreamBuilder<DateTime>(
+              stream: bloc.viewDateStream,
+              builder: (context, snapshot) => this.buildWeeks(context),
+            ),
           ),
         ],
       ),

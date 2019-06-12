@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../service/user-service.dart';
-import '../widget/mycalendar/calendar-view.dart';
+import 'calendar-screen.dart';
 
 class HomeScreen extends StatelessWidget {
 
@@ -36,7 +36,7 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text('Welcome ' + UserService.instance.user.firstName),
-                CalendarView(),
+                CalendarScreen(),
               ]
       ),
     );

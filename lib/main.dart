@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 //import 'screen/landing.dart';
-import 'package:teledoc/widget/mycalendar/calendar-view.dart';
+import 'screen/calendar-screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
-      home: CalendarView(),//LandingPage(),
+      home: CalendarScreen(),//LandingPage(),
     );
   }
 }

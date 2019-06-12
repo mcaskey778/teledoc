@@ -9,9 +9,11 @@ class CalendarViewBloc  {
   CalendarViewBloc() {
     this.viewDateChanged(DateTime(2019, 6, 1));
 
+    /*
     viewDateStream.listen((DateTime dt) {
       print(dt.month.toString() + '/' + dt.day.toString() + '/' + dt.year.toString());
     });
+    */
   }
 
   Function(DateTime) get selectedDateChanged => _selectedDateController.sink.add;
